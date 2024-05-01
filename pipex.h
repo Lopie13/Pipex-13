@@ -8,6 +8,7 @@
 //# include <sys/wait.h>
 # include <fcntl.h>
 
-void	command(char *argv, char **envp);
+void	commands(char *argv, char **envp);
+void	error();
 
 #endif

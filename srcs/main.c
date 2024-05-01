@@ -3,6 +3,15 @@
 void	parent_process(char **argv, char **envp, int *fd)
 {
 	//teaches the child how to eat or something idk im not a parent
+	int		outf;
+
+	outf = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (outf == -1)
+		error();
+	dup2(fd[0], STDIN_FILENO);
+	dup2(outf, STDOUT_FILENO);
+	close(fd[1]);
+	commands(argv[3], envp);
 }
 
 void	child_process(char **argv, char **envp, int *fd)
@@ -15,7 +24,7 @@ void	child_process(char **argv, char **envp, int *fd)
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(infile, STDIN_FILENO);
 	close(fd[0]);
-	command(argv[2], envp);
+	commands(argv[2], envp);
 }
 
 int	main(int argc, char *argv[], char **envp)
