@@ -54,5 +54,6 @@ char	*find_path(char *cmd, char **envp)
 
 void	error()
 {
-	//prints error and quits
+	perror("Error");
+	exit(EXIT_FAILURE);
 }
