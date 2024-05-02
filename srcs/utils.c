@@ -8,7 +8,7 @@ void	commands(char *argv, char **envp)
 	char	*cmd;
 	int	melon;
 
-	cmd = ft_split(argv);
+	cmd = ft_split(argv, '\n');
 	path = find_path(cmd[0], envp);
 	if (!path)	
 	{
@@ -20,11 +20,12 @@ void	commands(char *argv, char **envp)
 		free(cmd);
 		error();
 	}
+	if (execve(path, cmd, envp) == -1)
+		error();
 }
 
 char	*find_path(char *cmd, char **envp)
 {
-	//somehow finds the path to the commands we need?
 	char	**allpaths;
 	char	*path;
 	char	*partpath;
@@ -54,6 +55,6 @@ char	*find_path(char *cmd, char **envp)
 
 void	error()
 {
-	perror("Error");
+	perror("\033[31mError");
 	exit(EXIT_FAILURE);
 }

@@ -2,7 +2,6 @@
 
 void	parent_process(char **argv, char **envp, int *fd)
 {
-	//teaches the child how to eat or something idk im not a parent
 	int		outf;
 
 	outf = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
@@ -20,7 +19,7 @@ void	child_process(char **argv, char **envp, int *fd)
 
 	infile = open(argv[1], O_RDONLY, 0777);
 	if (infile == -1)
-		error(/*function*/);
+		error();
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(infile, STDIN_FILENO);
 	close(fd[0]);
@@ -46,8 +45,9 @@ int	main(int argc, char *argv[], char **envp)
 	}
 	else
 	{
-		printf("Error: Bad arguments\n");
-		printf("Should be: ./pipex <file1> <cmd1> <cmd2> <file2>\n");
+		ft_printf("\00[31mError: Bad arguments\n\003[0m");
+		ft_printf("Should be: ./pipex <file1> <cmd1> <cmd2> <file2>\n");
 	}
+	exit(EXIT_SUCCESS);
 	return (0);
 }

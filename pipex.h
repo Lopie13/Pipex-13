@@ -5,8 +5,9 @@
 # include <unistd.h>
 # include <string.h>
 # include <stdio.h>
-//# include <sys/wait.h>
+# include <sys/wait.h>
 # include <fcntl.h>
+# include "minilibft/ft_printf.h"
 
 void	commands(char *argv, char **envp);
 void	error();
