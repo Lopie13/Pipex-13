@@ -5,13 +5,14 @@
 void	commands(char *argv, char **envp)
 {
 	char	*path;
-	char	*cmd;
+	char	**cmd;
 	int	melon;
 
 	cmd = ft_split(argv, '\n');
 	path = find_path(cmd[0], envp);
 	if (!path)	
 	{
+		melon = 0;
 		while (cmd[melon])
 		{
 			free(cmd[melon]);
