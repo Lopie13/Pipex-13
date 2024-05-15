@@ -21,7 +21,7 @@ void	commands(char *argv, char **envp)
 		free(cmd);
 		error();
 	}
-	if (execve(path, cmd, envp) == -1)
+	execve(path, cmd, envp);
 		error();
 }
 
