@@ -8,7 +8,7 @@ void	commands(char *argv, char **envp)
 	char	**cmd;
 	int	melon;
 
-	cmd = ft_split(argv, '\n');
+	cmd = ft_split(argv, ' ');
 	path = find_path(cmd[0], envp);
 	if (!path)	
 	{
@@ -21,7 +21,7 @@ void	commands(char *argv, char **envp)
 		free(cmd);
 		error();
 	}
-	execve(path, cmd, envp);
+	if (!(execve(path, cmd, envp)))
 		error();
 }
 
@@ -33,7 +33,9 @@ char	*find_path(char *cmd, char **envp)
 	int		i;
 
 	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+	/* while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++; */
+	while (envp[i] && strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
 	allpaths = ft_split(envp[i] + 5, ':');
 	i = 0;
@@ -43,7 +45,7 @@ char	*find_path(char *cmd, char **envp)
 		path = ft_strjoin(partpath, cmd);       // then here it adds the command infront of the path
 		free(partpath);                         // allpaths[i] - PATH | partpath - PATH/ path - PATH/cmd
 		if (access(path, F_OK) == 0)
-			return (path);
+			return (path); //free array pls thnk u
 		free(path);
 		i++;
 	}
@@ -56,6 +58,6 @@ char	*find_path(char *cmd, char **envp)
 
 void	error()
 {
-	perror("\033[31mError");
+	perror("\033[31mError\033[0m");
 	exit(EXIT_FAILURE);
 }

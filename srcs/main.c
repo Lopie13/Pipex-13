@@ -1,52 +1,36 @@
 #include "../pipex.h"
-/* 
-void	parent_process(char **argv, char **envp, int *fd)
-{
-	int		outf;
 
-	outf = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (outf == -1)
+void	child_two(char **argv, char **envp, int *fd)
+{
+	int	outfile;
+
+	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (outfile == -1)
 		error();
 	dup2(fd[0], STDIN_FILENO);
-	dup2(outf, STDOUT_FILENO);
+	dup2(outfile, STDOUT_FILENO);
 	close(fd[1]);
 	commands(argv[3], envp);
-} */
+}
 
-void	child_process(char **argv, char **envp, int *fd)
+void	child_one(char **argv, char **envp, int *fd)
 {
-	int		infile;
-	int		outf;
-	int	pid2;
+	int	infile;
 
-	pid2 = fork();
-	if (pid2 != 0)
-	{
-		infile = open(argv[1], O_RDONLY, 0777);
-		if (infile == -1)
-			error();
-		dup2(fd[1], STDOUT_FILENO);
-		dup2(infile, STDIN_FILENO);
-		close(fd[0]);
-		commands(argv[2], envp);
-	}
-	else
-	{
-		waitpid(pid2, NULL, 0);
-		outf = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		if (outf == -1)
-			error();
-		dup2(fd[0], STDIN_FILENO);
-		dup2(outf, STDOUT_FILENO);
-		close(fd[1]);
-		commands(argv[3], envp);
-	}
+	infile = open(argv[1], O_RDONLY, 0777);
+	if (infile == -1)
+		error();
+	dup2(fd[1], STDOUT_FILENO);
+	dup2(infile, STDIN_FILENO);
+	close(fd[0]);
+	commands(argv[2], envp);
 }
 
 int	main(int argc, char *argv[], char **envp)
 {
 	int fd[2];
 	int pid1;
+	int pid2;
 
 	if (argc == 5)
 	{
@@ -56,15 +40,19 @@ int	main(int argc, char *argv[], char **envp)
 		if (pid1 < 0)
 			return 2;
 		if (pid1 == 0)
-			child_process(argv, envp, fd);
+			child_one(argv, envp, fd);
 		waitpid(pid1, NULL, 0);
-		// parent_process(argv, envp, fd);
+		pid2 = fork();
+		if (pid2 < 0)
+			return 2;
+		if (pid2 == 0)
+			child_two(argv, envp, fd);
+		waitpid(pid2, NULL, 0);
 	}
 	else
 	{
 		ft_printf("Error: Bad arguments\n");
 		ft_printf("Should be: ./pipex <file1> <cmd1> <cmd2> <file2>\n");
 	}
-	//exit(EXIT_SUCCESS);
-	return (0);
+	exit(EXIT_SUCCESS);
 }
