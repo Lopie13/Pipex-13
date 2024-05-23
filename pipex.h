@@ -12,5 +12,6 @@
 void	commands(char *argv, char **envp);
 void	error(void);
 char	*find_path(char *cmd, char **envp);
+void	clean_pipes(int *fd);
 
 #endif

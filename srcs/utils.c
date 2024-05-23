@@ -2,28 +2,6 @@
 
 	//does the specified commands somehow...
 	//using split maybe? or idk
-void	commands(char *argv, char **envp)
-{
-	char	*path;
-	char	**cmd;
-	int	melon;
-
-	cmd = ft_split(argv, ' ');
-	path = find_path(cmd[0], envp);
-	if (!path)	
-	{
-		melon = 0;
-		while (cmd[melon])
-		{
-			free(cmd[melon]);
-			melon++;
-		}
-		free(cmd);
-		error();
-	}
-	if (!(execve(path, cmd, envp)))
-		error();
-}
 
 char	*find_path(char *cmd, char **envp)
 {
@@ -33,8 +11,6 @@ char	*find_path(char *cmd, char **envp)
 	int		i;
 
 	i = 0;
-	/* while (ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++; */
 	while (envp[i] && strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
 	allpaths = ft_split(envp[i] + 5, ':');
@@ -54,6 +30,35 @@ char	*find_path(char *cmd, char **envp)
 		free(allpaths[i]);
 	free(allpaths);
 	return (0);
+}
+
+void	commands(char *argv, char **envp)
+{
+	char	*path;
+	char	**cmd;
+	int	melon;
+
+	cmd = ft_split(argv, ' ');
+	path = find_path(cmd[0], envp);
+	if (!path)	
+	{
+		melon = 0;
+		while (cmd[melon])
+		{
+			free(cmd[melon]);
+			melon++;
+		}
+		free(cmd);
+		error();
+	}
+	execve(path, cmd, envp);
+	error();
+}
+
+void	clean_pipes(int fd[2])
+{
+    close(fd[1]);
+    close(fd[0]);
 }
 
 void	error()
