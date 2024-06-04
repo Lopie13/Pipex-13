@@ -6,7 +6,7 @@
 /*   By: mmata-al <mmata-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:36:18 by mmata-al          #+#    #+#             */
-/*   Updated: 2023/11/09 18:11:21 by mmata-al         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:47:46 by mmata-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_put_pointer_addr(void *p)
 		return (writenil());
 	write(1, "0x", 2);
 	i = 0;
-	while (nb != 0) 
+	while (nb != 0)
 	{
 		str[i] = base[nb % 16];
 		nb /= 16;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmata-al <mmata-al@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/04 10:46:49 by mmata-al          #+#    #+#             */
+/*   Updated: 2024/06/04 11:38:05 by mmata-al         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../pipex.h"
 
 void	child_two(char **argv, char **envp, int *fd)
@@ -25,45 +37,46 @@ void	child_one(char **argv, char **envp, int *fd)
 	if (dup2(fd[1], STDOUT_FILENO) < 0)
 		error();
 	if (dup2(infile, STDIN_FILENO) < 0)
+		error();
 	close(fd[0]);
 	clean_pipes(fd);
 	commands(argv[2], envp);
 }
 
-int	main(int argc, char *argv[], char **envp)
+int	parent(int *pids, char **argv, char **envp)
 {
-	int fd[2];
-	int pid1;
-	int pid2;
-	int status;
+	int	fd[2];
 
-	status = 0;
-	if (argc == 5)
-	{
-		if (pipe(fd) == -1)
-			return 1;
-		pid1 = fork();
-		if (pid1 < 0)
-			return 2;
-		if (pid1 == 0)
-			child_one(argv, envp, fd);
-		pid2 = fork();
-		if (pid2 < 0)
-			return 2;
-		if (pid2 == 0)
-			child_two(argv, envp, fd);
-		else
-		{
-			clean_pipes(fd);
-			waitpid(pid1, NULL, 0);
-			waitpid(pid2, &status, 0);
-		}
-	}
+	if (pipe(fd) == -1)
+		return (1);
+	pids[1] = fork();
+	if (pids[1] < 0)
+		return (2);
+	if (pids[1] == 0)
+		child_one(argv, envp, fd);
+	pids[2] = fork();
+	if (pids[2] < 0)
+		return (2);
+	if (pids[2] == 0)
+		child_two(argv, envp, fd);
 	else
 	{
-		ft_printf("Error: Bad arguments\n");
-		ft_printf("Should be: ./pipex <file1> <cmd1> <cmd2> <file2>\n");
+		clean_pipes(fd);
+		waitpid(pids[1], NULL, 0);
+		waitpid(pids[2], &pids[0], 0);
 	}
-	exit(EXIT_SUCCESS);
 	return (0);
 }
+
+int	main(int argc, char *argv[], char **envp)
+{
+	int	pids[3];
+
+	pids[0] = 0;
+	if (argc == 5)
+		return (parent(pids, argv, envp));
+	else
+		errormain();
+	exit(0);
+}
+//pids is an array containing pid 1 and 2 + pids[0] = 0

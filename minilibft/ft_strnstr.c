@@ -6,7 +6,7 @@
 /*   By: mmata-al <mmata-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:39:24 by mmata-al          #+#    #+#             */
-/*   Updated: 2023/10/10 15:23:55 by mmata-al         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:15:49 by mmata-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strnstr(const char *str, const char *to_find, size_t n)
 	while (str[melon] && (melon < (int)n || (int)n == -1))
 	{
 		soda = 0;
-		while (str[melon + soda] == to_find[soda] 
+		while (str[melon + soda] == to_find[soda]
 			&& str[melon + soda]
 			&& ((melon + soda) < (int)n || (int)n == -1))
 			soda++;

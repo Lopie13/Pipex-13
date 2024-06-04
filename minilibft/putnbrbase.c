@@ -6,7 +6,7 @@
 /*   By: mmata-al <mmata-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 16:34:43 by mmata-al          #+#    #+#             */
-/*   Updated: 2023/11/10 17:08:32 by mmata-al         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:47:32 by mmata-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_putnbr_base(long nbr, char *base)
 		ft_putcharr('-');
 		ft_putnbr_base(nbr * -1, base);
 	}
-	else 
+	else
 	{
 		if (number >= size)
 			ft_putnbr_base((number / size), base);
