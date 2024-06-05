@@ -6,7 +6,7 @@
 /*   By: mmata-al <mmata-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:46:49 by mmata-al          #+#    #+#             */
-/*   Updated: 2024/06/04 11:38:05 by mmata-al         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:25:04 by mmata-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	main(int argc, char *argv[], char **envp)
 	int	pids[3];
 
 	pids[0] = 0;
+	if (!argv[2][0] || !argv[3][0])
+		errormain();
 	if (argc == 5)
 		return (parent(pids, argv, envp));
 	else
