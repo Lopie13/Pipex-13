@@ -6,14 +6,11 @@
 /*   By: mmata-al <mmata-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:45:27 by mmata-al          #+#    #+#             */
-/*   Updated: 2024/06/04 11:17:10 by mmata-al         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:21:56 by mmata-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
-
-	//does the specified commands somehow...
-	//using split maybe? or idk
 
 char	*find_path(char *cmd, char **envp)
 {
